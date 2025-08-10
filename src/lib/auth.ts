@@ -1,3 +1,4 @@
+import React from 'react';
 import { apiClient } from './api-client';
 import { errorMonitoring } from './error-monitoring';
 
@@ -594,11 +595,11 @@ export const useAuth = () => {
 };
 
 // Higher-order component for protected routes
-export const withAuth = <P extends object>(
+export function withAuth<P extends object>(
   Component: React.ComponentType<P>,
   requiredPermissions?: string[]
-) => {
-  return (props: P) => {
+) {
+  return function AuthenticatedComponent(props: P) {
     const auth = useAuth();
 
     if (auth.isLoading) {
@@ -632,4 +633,4 @@ export const withAuth = <P extends object>(
 
     return <Component {...props} />;
   };
-};
+}
